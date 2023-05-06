@@ -20,3 +20,13 @@ class Supplier(models.Model):
     def __str__(self):
         return self.name
     
+    def get_full_name(self):
+        return self.name
+
+    def to_select2(self):
+        item = {
+            "label": self.get_full_name(),
+            "value": self.id
+        }
+        return item
+    

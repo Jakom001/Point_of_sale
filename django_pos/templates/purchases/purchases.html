@@ -56,13 +56,13 @@
                             <td class="text-center" >{{p.sum_items}}</td>
                             <td class="text-center">
                                 <!--View-->
-                                <a href="{% url 'purchases:purchases_details' s.id %}" class="text-decoration-none">
+                                <a href="{% url 'purchases:purchases_details' p.id %}" class="text-decoration-none">
                                     <button type="button" class="btn btn-info btn-sm" data-bs-toggle="tooltip" title="Update purchase">
                                         <i class="fas fa-eye"></i>
                                     </button>
                                 </a>
                                 <!--Print receipt-->
-                                <a href="{% url 'purchases:purchases_receipt_pdf' s.id %}" class="text-decoration-none">
+                                <a href="{% url 'purchases:purchases_receipt_pdf' p.id %}" class="text-decoration-none">
                                     <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="tooltip" title="View Receipt">
                                         <i class="fas fa-receipt"></i>
                                     </button>

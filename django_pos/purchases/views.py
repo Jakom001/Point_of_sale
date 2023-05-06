@@ -29,7 +29,7 @@ def PurchasesListView(request):
 def PurchasesAddView(request):
     context = {
         "active_icon": "purchases",
-        "suppliers": [s.name for s in Supplier.objects.all()]
+        "suppliers": [s.to_select2 for s in Supplier.objects.all()]
     }
 
     if request.method == 'POST':
@@ -60,7 +60,6 @@ def PurchasesAddView(request):
                         "price": product["price"],
                         "quantity": product["quantity"],
                         "total_detail": product["total_product"],
-                        "price": product["price"],
                     }
                     purchase_detail_new = PurchaseDetail.objects.create(
                         **detail_attributes)

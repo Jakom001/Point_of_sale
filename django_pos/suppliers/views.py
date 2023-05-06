@@ -88,7 +88,6 @@ def SuppliersUpdateView(request, supplier_id):
                 "address": data['address'],
                 "email": data['email'],
                 "phone": data['phone'],
-                'date_added': data['date_added'],
             }
 
             # Check if a supplier with the same attributes exists

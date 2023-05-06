@@ -38,15 +38,7 @@
         </div>
     </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider my-0">
-
-    <!-- Nav Item - Customers -->
-    <li class="{% if "customers" in active_icon %} nav-item active {% else %} nav-item {% endif %}">
-        <a class="nav-link" href="{% url 'customers:customers_list' %}">
-            <i class="fas fa-fw fa-users"></i>
-            <span>Customers</span></a>
-    </li>
+    
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
@@ -57,6 +49,16 @@
             <i class="fas fa-fw fa-cart-plus"></i>
             <span>Sales</span></a>
     </li>
+
+     <!-- Divider -->
+     <hr class="sidebar-divider my-0">
+
+     <!-- Nav Item - Sales -->
+     <li class="{% if "sales" in active_icon %} nav-item active {% else %} nav-item {% endif %}">
+         <a class="nav-link" href="{% url 'purchases:purchases_list' %}">
+             <i class="fas fa-fw fa-cart-plus"></i>
+             <span>Purchase</span></a>
+     </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
@@ -71,12 +73,74 @@
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
-    <!-- Nav Item - Sales -->
-    <li class="{% if "sales" in active_icon %} nav-item active {% else %} nav-item {% endif %}">
-        <a class="nav-link" href="{% url 'purchases:purchases_list' %}">
-            <i class="fas fa-fw fa-cart-plus"></i>
-            <span>Purchase</span></a>
+    <!-- Nav Item - Customers -->
+    <li class="{% if "customers" in active_icon %} nav-item active {% else %} nav-item {% endif %}">
+        <a class="nav-link" href="{% url 'customers:customers_list' %}">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Customers</span></a>
     </li>
+
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Products Collapse Menu -->
+    <li class="{% if "products" in active_icon %} nav-item active {% else %} nav-item {% endif %}">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
+            aria-expanded="true" aria-controls="collapseFour">
+            <i class="fas fa-fw fa-tag"></i>
+            <span>Production</span>
+        </a>
+        <div id="collapseFour" class="{% if "products" in active_icon %} collapse show {% else %} collapse {% endif %}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="{% if "categories" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'products:categories_list' %}">Production</a>
+                <a class="{% if "products_products" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'products:products_list' %}">Category</a>
+            </div>
+        </div>
+    </li>
+
+       <!-- Divider -->
+       <hr class="sidebar-divider my-0">
+
+       <!-- Nav Item - Products Collapse Menu -->
+       <li class="{% if "products" in active_icon %} nav-item active {% else %} nav-item {% endif %}">
+           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive"
+               aria-expanded="true" aria-controls="collapseFive">
+               <i class="fas fa-fw fa-tag"></i>
+               <span>Maintenance</span>
+           </a>
+           <div id="collapseFive" class="{% if "products" in active_icon %} collapse show {% else %} collapse {% endif %}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+               <div class="bg-white py-2 collapse-inner rounded">
+                   <a class="{% if "categories" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'products:categories_list' %}">Employees</a>
+                   <a class="{% if "products_products" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'products:products_list' %}">Shop</a>
+               </div>
+           </div>
+       </li>
+
+          <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Products Collapse Menu -->
+    <li class="{% if "products" in active_icon %} nav-item active {% else %} nav-item {% endif %}">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSix"
+            aria-expanded="true" aria-controls="collapseSix">
+            <i class="fas fa-fw fa-tag"></i>
+            <span>Expenses</span>
+        </a>
+        <div id="collapseSix" class="{% if "products" in active_icon %} collapse show {% else %} collapse {% endif %}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="{% if "categories" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'products:categories_list' %}">Category</a>
+                <a class="{% if "products_products" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'products:products_list' %}">Expenses</a>
+                <a class="{% if "products_products" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'products:products_list' %}">Capital</a>
+
+            </div>
+        </div>
+    </li>
+
+   
+
+
+
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

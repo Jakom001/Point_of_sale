@@ -39,9 +39,10 @@
                             <th>ID</th>
                             <th style="width:5%">#</th>
                             <th style="width:20%">Name</th>
-                            <th style="width:25%">Email</th>
+                            <th style="width:15%">Date</th>
+                            <th style="width:20%">Email</th>
                             <th style="width:15%">Phone</th>
-                            <th style="width:25%">Adress</th>
+                            <th style="width:15%">Adress</th>
                             <th class="text-center" style="width:10%">Actions</th>
                         </tr>
                     </thead>
@@ -51,6 +52,7 @@
                             <td>{{c.id}}</td>
                             <td>{{forloop.counter}}</td>
                             <td>{{c.get_full_name}}</td>
+                            <td>{{c.date_added}}</td>
                             <td>{{c.email}}</td>
                             <td>{{c.phone}}</td>
                             <td>{{c.address}}</td>

@@ -1,7 +1,7 @@
 {% extends "pos/base.html" %}
 {% load static %}
 <!-- Page title  -->
-{% block title %}Add purchase{% endblock title %}
+{% block title %}Add Purchase{% endblock title %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
@@ -82,11 +82,11 @@
                     <!--Righ column-->
                     <div class="col-md-3 pr-0">
                         <div class="card card-secondary">
-                            <div class="card-header">purchase details</div>
+                            <div class="card-header">Purchase details</div>
                             <div class="card-body">
                                 {% csrf_token %}
                                 <div class="form-group">
-                                    <label for="supplier">supplier</label>
+                                    <label for="supplier">Supplier</label>
                                     <select name="supplier" class="form-control" id="searchbox_suppliers" required>
                                         <option value="" selected disabled hidden>Select the supplier</option>
                                         {% for supplier in suppliers %}
