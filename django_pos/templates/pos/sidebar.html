@@ -4,10 +4,10 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'pos:index' %}">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
+        <div class="sidebar-brand-icon ">
+            <img src="{% static 'img/logo.png' %}" alt="Logo" class="img-fluid" style="max-width: 50px;">
         </div>
-        <div class="sidebar-brand-text mx-3">Django POS</div>
+        <div class="sidebar-brand-text mx-3">Katieno Butchery</div>
     </a>
 
     <!-- Divider -->
@@ -93,8 +93,8 @@
         </a>
         <div id="collapseFour" class="{% if "products" in active_icon %} collapse show {% else %} collapse {% endif %}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="{% if "categories" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'products:categories_list' %}">Production</a>
-                <a class="{% if "products_products" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'products:products_list' %}">Category</a>
+                <a class="{% if "categories" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="#">Production</a>
+                <a class="{% if "products_products" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="#">Category</a>
             </div>
         </div>
     </li>
@@ -111,8 +111,8 @@
            </a>
            <div id="collapseFive" class="{% if "products" in active_icon %} collapse show {% else %} collapse {% endif %}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                <div class="bg-white py-2 collapse-inner rounded">
-                   <a class="{% if "categories" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'products:categories_list' %}">Employees</a>
-                   <a class="{% if "products_products" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'products:products_list' %}">Shop</a>
+                   <a class="{% if "categories" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="#">Employees</a>
+                   <a class="{% if "products_products" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="#">Shop</a>
                </div>
            </div>
        </li>
@@ -129,11 +129,8 @@
         </a>
         <div id="collapseSix" class="{% if "products" in active_icon %} collapse show {% else %} collapse {% endif %}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="{% if "categories" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'products:categories_list' %}">Category</a>
-                <a class="{% if "products_products" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'products:products_list' %}">Expenses</a>
-                <a class="{% if "products_products" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'products:products_list' %}">Capital</a>
-
-            </div>
+                <a class="{% if "categories" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="#">Category</a>
+                <a class="{% if "products_products" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="#">Expenses</a>
         </div>
     </li>
 
