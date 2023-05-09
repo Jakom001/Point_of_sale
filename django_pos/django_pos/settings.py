@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -46,6 +47,9 @@ LOCAL_APPS = [
     "sales",
     "suppliers",
     "purchases",
+    "productions",
+    "employees",
+    "expenses"
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
@@ -100,6 +104,9 @@ DATABASES = {
 }
 
 
+
+
+
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -136,6 +143,7 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(CORE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
