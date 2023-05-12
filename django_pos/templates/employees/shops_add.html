@@ -1,0 +1,79 @@
+{% extends "pos/base.html" %}
+
+<!-- Page title  -->
+{% block title %}Add shop{% endblock title %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+<!-- Page Heading -->
+{% block heading %}Add shop{% endblock heading %}
+
+<!-- Page content  -->
+{% block content %}
+<!--Go back-->
+<div class="row ml-0 mb-3">
+    <a href="{% url 'employees:shops_list' %}">
+        <button type="button" class="btn btn-info font-weight-bold">
+            <i class="fas fa-long-arrow-alt-left mr-2"></i>
+            Go back
+        </button>
+    </a>
+</div>
+
+
+<div class="row">
+    <div class="card col-md-8">
+        <div class="card-body">
+            <form action="{% url 'employees:shops_add' %}"  method="post">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputDescription">Name</label>
+                        <input type="text" class="form-control" name="name" placeholder="Drinks..." required>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="inputDescription">Location</label>
+                        <input type="text" class="form-control" name="location" placeholder="Kisumu..." required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputDescription">Manager</label>
+                        <select name="manager" id="manager" class="form-control" required>
+                            <option value="">--None--</option>
+                            {% for employee in employees %}
+                            <option value="{{ employee.id }}">{{ employee.first_name }} {{ employee.last_name }}</option>
+                            {% endfor %}
+                        </select>                 
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="state">State</label>
+                        <select name="state" class="form-control" required>
+                            {% for status in shop_status %}
+                            <option value="{{status.0}}">{{status.1}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-12">
+                        <label for="inputDescription">Description</label>
+                        <input type="text" name="description" class="form-control" placeholder="Drinks and beverages.." required>
+                    </div>
+                </div>
+               
+                <button type="submit" class="btn btn-success font-weight-bold">Create shop</button>
+               
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

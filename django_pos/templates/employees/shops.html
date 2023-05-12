@@ -1,7 +1,7 @@
 {% extends "pos/base.html" %}
 {% load static %}
 <!-- Page title  -->
-{% block title %}productions{% endblock title %}
+{% block title %}employee shops{% endblock title %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
@@ -11,17 +11,17 @@
 {% endblock stylesheets %}
 
 <!-- Page Heading -->
-{% block heading %}productions{% endblock heading %}
+{% block heading %}employee shops{% endblock heading %}
 
 <!-- Page content  -->
 {% block content %}
 
-    <!--Create new production-->
+    <!--Create new shop-->
     <div class="row ml-0 mb-3">
-        <a href="{% url 'productions:productions_add' %}">
+        <a href="{% url 'employees:shops_add' %}">
             <button type="button" class="btn btn-success font-weight-bold">
                     <i class="fas fa-plus mr-2"></i>
-                    Create new production
+                    Create new shop
             </button>
         </a>
     </div>
@@ -29,7 +29,7 @@
     <!-- DataTable -->
     <div class="card shadow mb-12">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">productions</h6>
+            <h6 class="m-0 font-weight-bold text-primary">shops</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -37,31 +37,39 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th style="width:5%">#</th>
-                            <th style="width:15%">Product</th>
-                            <th style="width:25%">Remarks</th>
-                            <th style="width:15%">Sector</th>
-                            <th style="width:10%">Quantity</th>
-                            <th style="width:10%">Weight</th>
-                            <th class="text-center" style="width:10%">Total Price</th>
-                            <th class="text-center" style="width:10%">Actions</th>
+                            <th style="width:7%">#</th>
+                            <th>Name</th>
+                            <th>Date Added</th>
+                            <th>Location</th>
+                            <th>Description</th>
+                            <th>Manager</th>
+                            <th class="text-center" style="width:15%">Status</th>
+                            <th class="text-center" style="width:15%">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for p in productions %}
+                        {% for c in shops %}
                         <tr>
-                            <td>{{p.id}}</td>
+                            <td>{{c.id}}</td>
                             <td>{{forloop.counter}}</td>
-                            <td>{{p.product.name}}</td>
-                            <td>{{p.description}}</td>
-                            <td>{{p.sector}}</td>
-                            <td>{{p.quantity}}</td>
-                            <td>{{p.weight}}</td>
-                            <td class="text-right">{{p.total_price}} $</td>
+                            <td>{{c.name}}</td>
+                            <td>{{c.date_added}}</td>
+                            <td>{{c.location}}</td>
+                            <td>{{c.manager}}</td>
+                            <td>{{c.description}}</td>
+                            {% if c.status == "ACTIVE" %}
+                            <td class="text-center">
+                                <span class="badge badge-success" style="font-size:0.8em;">{{c.status}}</span>
+                            </td>
+                            {% elif c.status == "INACTIVE" %}
+                            <td class="text-center">
+                                <span class="badge badge-danger" style="font-size:0.8em;">{{c.status}}</span>
+                            </td>
+                            {% endif %}
                             <td class="text-center">
                                 <!--Update-->
-                                <a href="{% url 'productions:productions_update' p.id %}" class="text-decoration-none">
-                                    <button  type="button" class="btn btn-warning btn-sm" data-bs-toggle="tooltip" title="Update production">
+                                <a href="{% url 'employees:shops_update' c.id %}" class="text-decoration-none">
+                                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="tooltip" title="Update shop">
                                         <i class="fas fa-pen"></i>
                                     </button>
                                 </a>
@@ -78,19 +86,18 @@
                                     <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Delete production</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Delete shop</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div id="updateThisText" class="modal-body">
-                                            
+                                            Are you sure you want to delete the shop: {{c.name}}
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                            <a href="#" class="text-decoration-none">
-                                            <a id="updateThisURL" href="{% url 'productions:productions_delete' p.id %}" class="text-decoration-none">
-                                                <button  type="button"  class="btn btn-danger">Delete</button>
+                                            <a id="updateThisURL" href="{% url 'employees:shops_delete' c.id %}" class="text-decoration-none">
+                                                <button type="button"  class="btn btn-danger">Delete</button>
                                             </a>
                                         </div>
                                     </div>
@@ -127,7 +134,7 @@
 <script>
     // Call the dataTables jQuery plugin
     $(document).ready(function() {
-        tblproductions = $('#dataTable').DataTable({
+        tblshops = $('#dataTable').DataTable({
             dom: 'Bfrtip', // Buttons are draw at this element
             buttons: [
                 {
@@ -222,21 +229,19 @@
         });
     });
 
-// Alert when trying to delete a production
-$('#dataTable tbody')
-    // Event when whe try to delete a production
+    // Alert when trying to delete a shop
+    $('#dataTable tbody')
+    // Event when whe try to delete a shop
     // We update the text, and href of the modal delete button
     .on('click', 'button[rel="delete"]', function () {
     // Row variable
-    var tr = tblproductions.cell($(this).closest('td, li')).index();
-    row_data = ( tblproductions.row(tr.row).data());
-    production_id = row_data[0];
-    production_name = row_data[2]
-    new_delete_url  = 'delete/' + production_id;
-    document.getElementById("updateThisText").innerHTML = "Are you sure you want to delete the production:  " + production_name + "?";
+    var tr = tblshops.cell($(this).closest('td, li')).index();
+    row_data = ( tblshops.row(tr.row).data());
+    shop_id = row_data[0];
+    shop_name = row_data[2]
+    new_delete_url  = 'shops/delete/' + shop_id;
+    document.getElementById("updateThisText").innerHTML = "Are you sure you want to delete the shop:  " + shop_name + "?";
     document.getElementById("updateThisURL").href=new_delete_url;
     });
-
-
 </script>
 {% endblock javascripts %}

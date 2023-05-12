@@ -5,7 +5,6 @@ from django.shortcuts import render, redirect
 from .models import Category, Product
 
 
-
 @login_required(login_url="/accounts/login/")
 def CategoriesListView(request):
     context = {

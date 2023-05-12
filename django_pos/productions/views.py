@@ -2,14 +2,16 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from .models import Sector, Product, Employee, Production
-
+from .models import Sector,  Production
+from products.models import Product
+from employees.models import Employee
+from django.forms import model_to_dict
 
 @login_required(login_url="/accounts/login/")
 def SectorsListView(request):
     context = {
         "active_icon": "productions_sectors",
-        "sector": Sector.objects.all()
+        "sectors": Sector.objects.all()
     }
     return render(request, "productions/sectors.html", context=context)
 
@@ -147,7 +149,8 @@ def ProductionsListView(request):
 def ProductionsAddView(request):
     context = {
         "active_icon": "productions_sectors",
-        "sector": Sector.objects.all()
+        "sectors": Sector.objects.all().filter(status="ACTIVE"),
+        "products": Product.objects.all().filter(status="ACTIVE"),
     }
 
     if request.method == 'POST':
@@ -160,7 +163,6 @@ def ProductionsAddView(request):
             "sector": Sector.objects.get(id=data['sector']),
             "weight": data['weight'],
             "quantity": data['quantity'],
-             "receivedby": Employee.objects.get(id=data['employee']),
             "total_price": data['total_price']
         }
 
@@ -208,9 +210,9 @@ def ProductionsUpdateView(request, production_id):
 
     context = {
         "active_icon": "productions",
-        "production_status": Production.status.field.choices,
         "production": production,
-        "sector": Sector.objects.all()
+        "sectors": Sector.objects.all().filter(status="ACTIVE"),
+        "products": Product.objects.all().filter(status="ACTIVE"),
     }
 
     if request.method == 'POST':
@@ -218,14 +220,19 @@ def ProductionsUpdateView(request, production_id):
             # Save the POST arguements
             data = request.POST
 
+            if 'product' in data:
+                product = Product.objects.get(id=data['product'])
+            else:
+                product = production.product
+
             attributes = {
-                "product": Product.objects.get(id=data['product']),
+    
+                "product": product,
                 "description": data['description'],
                 "sector": Sector.objects.get(id=data['sector']),
                 "weight": data['weight'],
                 "quantity": data['quantity'],
-                "receivedby": Employee.objects.get(id=data['employee']),
-                "total_price": data['total_price']
+                "total_price": data['total_price'],
                 
             }
 

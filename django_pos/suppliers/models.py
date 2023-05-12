@@ -1,9 +1,6 @@
 from django.db import models
 from django.forms import model_to_dict
-from django.utils import timezone
-from datetime import datetime, date
 import django.utils.timezone
-
 
 
 class Supplier(models.Model):
@@ -17,7 +14,7 @@ class Supplier(models.Model):
     class Meta:
         db_table = 'Suppliers'
 
-    def __str__(self):
+    def __str__(self)-> str:
         return self.name
     
     def get_full_name(self):

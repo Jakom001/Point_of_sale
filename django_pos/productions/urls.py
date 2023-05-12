@@ -20,10 +20,10 @@ urlpatterns = [
     # Add product
     path('add', views.ProductionsAddView, name='productions_add'),
     # Update product
-    path('update/<str:product_id>',
+    path('update/<str:production_id>',
          views.ProductionsUpdateView, name='productions_update'),
     # Delete product
-    path('delete/<str:product_id>',
+    path('delete/<str:production_id>',
          views.ProductionsDeleteView, name='productions_delete'),
     # Get productions AJAX
     path("get", views.GetProductionsAJAXView, name="get_productions"),

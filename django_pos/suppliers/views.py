@@ -55,11 +55,12 @@ def SuppliersAddView(request):
     return render(request, "suppliers/suppliers_add.html", context=context)
 
 
+
 @login_required(login_url="/accounts/login/")
 def SuppliersUpdateView(request, supplier_id):
     """
     Args:
-        supplier_id : The supplierr's ID that will be updated
+        supplier_id : The supplier's ID that will be updated
     """
 
     # Get the supplier
@@ -92,7 +93,7 @@ def SuppliersUpdateView(request, supplier_id):
 
             # Check if a supplier with the same attributes exists
             if Supplier.objects.filter(**attributes).exists():
-                messages.error(request, 'supplier already exists!',
+                messages.error(request, 'Supplier already exists!',
                                extra_tags="warning")
                 return redirect('suppliers:suppliers_add')
 
@@ -102,7 +103,7 @@ def SuppliersUpdateView(request, supplier_id):
 
             supplier = Supplier.objects.get(id=supplier_id)
 
-            messages.success(request, 'Supplier: ' + supplier.name() +
+            messages.success(request, 'Supplier: ' + supplier.get_full_name() +
                              ' updated successfully!', extra_tags="success")
             return redirect('suppliers:suppliers_list')
         except Exception as e:

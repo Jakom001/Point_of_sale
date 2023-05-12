@@ -32,11 +32,8 @@ class Production(models.Model):
         Product, models.DO_NOTHING, db_column='product')
     quantity = models.IntegerField()
     weight = models.DecimalField(max_digits=10, decimal_places=2)
-    receivedby = models.ForeignKey(
-        Employee, models.DO_NOTHING, db_column='employee')
-    quantity = models.IntegerField()
     sector = models.ForeignKey(
-        Sector, related_name="sector", on_delete=models.CASCADE, db_column='Sector')    
+        Sector, related_name="sector", on_delete=models.CASCADE, db_column='sector')    
     description = models.TextField(blank=True)
     total_price = models.DecimalField(max_digits=10, default=0, decimal_places=2)
 
@@ -45,10 +42,12 @@ class Production(models.Model):
         db_table = "Production"
 
     def __str__(self) -> str:
-        return self.product
+        return self.description
+    
     def to_json(self):
         item = model_to_dict(self)
         item['id'] = self.id
+        item['text'] = self.description
         item['sector'] = self.sector.name
         item['quantity'] = 1
         item['total_production'] = 0

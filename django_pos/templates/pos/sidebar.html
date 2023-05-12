@@ -85,16 +85,16 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Products Collapse Menu -->
-    <li class="{% if "products" in active_icon %} nav-item active {% else %} nav-item {% endif %}">
+    <li class="{% if "productions" in active_icon %} nav-item active {% else %} nav-item {% endif %}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
             aria-expanded="true" aria-controls="collapseFour">
             <i class="fas fa-fw fa-tag"></i>
-            <span>Production</span>
+            <span>Productions</span>
         </a>
         <div id="collapseFour" class="{% if "products" in active_icon %} collapse show {% else %} collapse {% endif %}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="{% if "categories" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="#">Production</a>
-                <a class="{% if "products_products" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="#">Category</a>
+                <a class="{% if "sectors" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'productions:sectors_list' %}">Sector</a>
+                <a class="{% if "productions_productions" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'productions:productions_list' %}">Production</a>
             </div>
         </div>
     </li>
@@ -107,12 +107,12 @@
            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive"
                aria-expanded="true" aria-controls="collapseFive">
                <i class="fas fa-fw fa-tag"></i>
-               <span>Maintenance</span>
+               <span>Shop</span>
            </a>
-           <div id="collapseFive" class="{% if "products" in active_icon %} collapse show {% else %} collapse {% endif %}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+           <div id="collapseFive" class="{% if "employees" in active_icon %} collapse show {% else %} collapse {% endif %}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                <div class="bg-white py-2 collapse-inner rounded">
-                   <a class="{% if "categories" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="#">Employees</a>
-                   <a class="{% if "products_products" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="#">Shop</a>
+                   <a class="{% if "employees" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'employees:shops_list' %}">Shop</a>
+                   <a class="{% if "eployees_employeess" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'employees:employees_list' %}">Employees</a>
                </div>
            </div>
        </li>

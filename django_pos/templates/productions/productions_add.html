@@ -28,52 +28,53 @@
                 {% csrf_token %}
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="product">Product</label>
-                        <input type="text" class="form-control" name="name" value="{{production.product.name}}" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="weight">Weight</label>
-                        <input type="number" name="weight" step="any"  class="form-control" value="{{production.weight}}"  required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group col-md-8">
-                        <label for="inputDescription">Description</label>
-                        <input type="text" name="description" class="form-control" value="{{production.description}}" required>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="sector">sector</label>
-                        <select name="sector" class="form-control" required>
-                            <option value="" selected disabled hidden>Select the sector</option>
-                            {% for sector in sectors %}
-                                {% if production.sector.id == sector.id%}
-                                <option value="{{sector.id}}" selected>{{sector.name}}</option>
-                                {% else %}
-                                <option value="{{sector.id}}">{{sector.name}}</option>
-                                {% endif %}
+                        <label for="product">Product:</label>
+                        <select class="form-control" id="product" name="product">
+                            {% for product in products %}
+                                <option value="{{ product.id }}">{{ product.name }}</option>
                             {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="inputDescription">weight</label>
+                        <input type="number" class="form-control" name="weight" placeholder="Chicken Breasts..." required>
                         </select>
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="quantity">Quantity</label>
-                        <input type="number" name="quantity" step="any"  class="form-control" value="{{production.quantity}}"  required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="inputPrice">Price</label>
-                        <input type="number" name="total_price" step="any"  class="form-control" value="{{production.price}}"  required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="receivedby">receivedby</label>
-                        <input type="number" name="receivedby" step="any"  class="form-control" value="{{production.receivedby}}"  required>
-                    </div>
-                </div>
                 
+ 
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputPrice">Quantity</label>
+                        <input type="number" name="quantity" step="any"  class="form-control" placeholder="10.99" required>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="inputPrice">Total Price</label>
+                        <input type="number" name="total_price" step="any"  class="form-control" placeholder="10.99" required>
+                    </div>
+                </div>
+                <div class="form-row">
+
+                    <div class="form-group col-md-6">
+                        <label for="sector">Sector:</label>
+                        <select name="sector" class="form-control" required>
+                            <option value="" selected disabled hidden>Select the sector</option>
+                            {% for sector in sectors %}
+                                <option value="{{sector.id}}">{{sector.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="inputDescription">Description</label>
+                    <input type="text" name="description" class="form-control" placeholder="Freshness Guaranteed Chicken Breast, 2.25 - 3.2 lb..." required>
+                </div>
+                </div>
+
                 <button type="submit" class="btn btn-success font-weight-bold">Create production</button>
                
             </form>

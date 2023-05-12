@@ -1,13 +1,8 @@
 from django.db import models
 import django.utils.timezone
 
-
 # Create your models here.
 class Employee(models.Model):
-    STATUS_CHOICES = (  # new
-        ("ACTIVE", "Active"),
-        ("INACTIVE", "Inactive")
-    )
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(max_length=254)
@@ -15,12 +10,6 @@ class Employee(models.Model):
     hire_date = models.DateTimeField(default=django.utils.timezone.now)
     salary = models.DecimalField(max_digits=10, decimal_places=2)
     shop = models.ForeignKey('Shop', on_delete=models.CASCADE)
-    status = models.CharField(
-        choices=STATUS_CHOICES,
-        max_length=100,
-        default='Active',
-        verbose_name="Status of the employee",
-    )
 
     class Meta:
         db_table = 'Employees'

@@ -1,0 +1,81 @@
+{% extends "pos/base.html" %}
+
+<!-- Page title  -->
+{% block title %}Update employee{% endblock title %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+<!-- Page Heading -->
+{% block heading %}Update employee{% endblock heading %}
+
+<!-- Page content  -->
+{% block content %}
+<!--Go back-->
+<div class="row ml-0 mb-3">
+    <a href="{% url 'employees:employees_list' %}">
+        <button type="button" class="btn btn-info font-weight-bold">
+            <i class="fas fa-long-arrow-alt-left mr-2"></i>
+            Go back
+        </button>
+    </a>
+</div>
+
+<div class="row">
+    <div class="card col-md-8">
+        <div class="card-body">
+            <form action="{% url 'employees:employees_update' employee.id %}"  method="post">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputDescription">First Name</label>
+                        <input type="text" class="form-control" name="first_name" value="{{employee.first_name}}" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputDescription">Last Name</label>
+                        <input type="text" class="form-control" name="last_name" value="{{employee.last_name}}" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputDescription">Email</label>
+                        <input type="email" name="email" class="form-control" value="{{employee.email}}" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputDescription">Phone number</label>
+                        <input type="text" name="phone" class="form-control" value="{{employee.phone}}" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputDescription">Shop</label>
+                        <select name="shop" class="form-control" required>
+                            <option value="" selected disabled hidden>Select the shop</option>
+                            {% for shop in shops %}
+                                {% if employee.shop.id == shop.id %}
+                                    <option value="{{shop.id}}" selected>{{shop.name}}</option>
+                                {% else %}
+                                    <option value="{{shop.id}}">{{shop.name}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputDescription">Salary</label>
+                        <input type="number" name="salary" class="form-control" value="{{employee.salary}}" required>
+                    </div>
+                </div>
+                
+
+                <button type="submit" class="btn btn-success font-weight-bold">Update employee</button>
+               
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

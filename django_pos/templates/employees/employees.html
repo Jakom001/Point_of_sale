@@ -1,7 +1,7 @@
 {% extends "pos/base.html" %}
 {% load static %}
 <!-- Page title  -->
-{% block title %}productions{% endblock title %}
+{% block title %}employees{% endblock title %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
@@ -11,17 +11,17 @@
 {% endblock stylesheets %}
 
 <!-- Page Heading -->
-{% block heading %}productions{% endblock heading %}
+{% block heading %}employees{% endblock heading %}
 
 <!-- Page content  -->
 {% block content %}
 
-    <!--Create new production-->
+    <!--Create new employee-->
     <div class="row ml-0 mb-3">
-        <a href="{% url 'productions:productions_add' %}">
+        <a href="{% url 'employees:employees_add' %}">
             <button type="button" class="btn btn-success font-weight-bold">
                     <i class="fas fa-plus mr-2"></i>
-                    Create new production
+                    Create new employee
             </button>
         </a>
     </div>
@@ -29,7 +29,7 @@
     <!-- DataTable -->
     <div class="card shadow mb-12">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">productions</h6>
+            <h6 class="m-0 font-weight-bold text-primary">employees</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -38,30 +38,30 @@
                         <tr>
                             <th>ID</th>
                             <th style="width:5%">#</th>
-                            <th style="width:15%">Product</th>
-                            <th style="width:25%">Remarks</th>
-                            <th style="width:15%">Sector</th>
-                            <th style="width:10%">Quantity</th>
-                            <th style="width:10%">Weight</th>
-                            <th class="text-center" style="width:10%">Total Price</th>
+                            <th style="width:15%">Name</th>
+                            <th style="width:15%">Date</th>
+                            <th style="width:20%">Email</th>
+                            <th style="width:15%">Phone</th>
+                            <th style="width:10%">Shop</th>
+                            <th style="width:10%">Salary</th>
                             <th class="text-center" style="width:10%">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for p in productions %}
+                        {% for c in employees %}
                         <tr>
-                            <td>{{p.id}}</td>
+                            <td>{{c.id}}</td>
                             <td>{{forloop.counter}}</td>
-                            <td>{{p.product.name}}</td>
-                            <td>{{p.description}}</td>
-                            <td>{{p.sector}}</td>
-                            <td>{{p.quantity}}</td>
-                            <td>{{p.weight}}</td>
-                            <td class="text-right">{{p.total_price}} $</td>
+                            <td>{{c.get_full_name}}</td>
+                            <td>{{c.hire_date}}</td>
+                            <td>{{c.email}}</td>
+                            <td>{{c.phone}}</td>
+                            <td>{{c.shop}}</td>
+                            <td>{{c.salary}}</td>
                             <td class="text-center">
                                 <!--Update-->
-                                <a href="{% url 'productions:productions_update' p.id %}" class="text-decoration-none">
-                                    <button  type="button" class="btn btn-warning btn-sm" data-bs-toggle="tooltip" title="Update production">
+                                <a href="{% url 'employees:employees_update' c.id %}" class="text-decoration-none">
+                                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="tooltip" title="Update employee">
                                         <i class="fas fa-pen"></i>
                                     </button>
                                 </a>
@@ -78,19 +78,18 @@
                                     <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Delete production</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Delete employee</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div id="updateThisText" class="modal-body">
-                                            
+                                            Are you sure you want to delete the employee: {{c.name}}
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                            <a href="#" class="text-decoration-none">
-                                            <a id="updateThisURL" href="{% url 'productions:productions_delete' p.id %}" class="text-decoration-none">
-                                                <button  type="button"  class="btn btn-danger">Delete</button>
+                                            <a id="updateThisURL" href="{% url 'employees:employees_delete' c.id %}" class="text-decoration-none">
+                                                <button type="button"  class="btn btn-danger">Delete</button>
                                             </a>
                                         </div>
                                     </div>
@@ -127,7 +126,7 @@
 <script>
     // Call the dataTables jQuery plugin
     $(document).ready(function() {
-        tblproductions = $('#dataTable').DataTable({
+        tblCategories = $('#dataTable').DataTable({
             dom: 'Bfrtip', // Buttons are draw at this element
             buttons: [
                 {
@@ -222,21 +221,19 @@
         });
     });
 
-// Alert when trying to delete a production
-$('#dataTable tbody')
-    // Event when whe try to delete a production
+    // Alert when trying to delete a employee
+    $('#dataTable tbody')
+    // Event when whe try to delete a employee
     // We update the text, and href of the modal delete button
     .on('click', 'button[rel="delete"]', function () {
     // Row variable
-    var tr = tblproductions.cell($(this).closest('td, li')).index();
-    row_data = ( tblproductions.row(tr.row).data());
-    production_id = row_data[0];
-    production_name = row_data[2]
-    new_delete_url  = 'delete/' + production_id;
-    document.getElementById("updateThisText").innerHTML = "Are you sure you want to delete the production:  " + production_name + "?";
+    var tr = tblCategories.cell($(this).closest('td, li')).index();
+    row_data = ( tblCategories.row(tr.row).data());
+    employee_id = row_data[0];
+    employee_name = row_data[2]
+    new_delete_url  = 'delete/' + employee_id;
+    document.getElementById("updateThisText").innerHTML = "Are you sure you want to delete the employee:  " + employee_name + "?";
     document.getElementById("updateThisURL").href=new_delete_url;
     });
-
-
 </script>
 {% endblock javascripts %}
