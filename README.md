@@ -118,7 +118,7 @@ Contributions are always welcome!
 
 ## Authors
 
-- [@betofleitass](https://www.github.com/betofleitass)
+- [Andrew Peter](https://www.github.com/jakom001)
 
 ##  License
 
