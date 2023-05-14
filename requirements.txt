@@ -129,8 +129,6 @@ tomli==2.0.1
 tornado==6.2
 traitlets==5.8.0
 typing_extensions==4.5.0
-uri-template==1.2.0
-usb-creator==0.3.7
 virtualenv==20.17.1
 wadllib==1.3.6
 wcwidth==0.2.5
