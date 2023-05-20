@@ -1,29 +1,27 @@
 {% extends "pos/base.html" %}
 {% load static %}
 <!-- Page title  -->
-{% block title %}Sales{% endblock title %}
+{% block title %}expense Categories{% endblock title %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
 <!-- Datatables -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-
 <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css ' %}" rel="stylesheet">
 <link href="{% static 'css/pagination_buttons.css ' %}" rel="stylesheet">
 {% endblock stylesheets %}
 
 <!-- Page Heading -->
-{% block heading %}Sales{% endblock heading %}
+{% block heading %}expense capitals{% endblock heading %}
 
 <!-- Page content  -->
 {% block content %}
 
-    <!--Create new sale-->
+    <!--Create new capital-->
     <div class="row ml-0 mb-3">
-        <a href="{% url 'sales:sales_add' %}">
+        <a href="{% url 'expenses:capitals_add' %}">
             <button type="button" class="btn btn-success font-weight-bold">
                     <i class="fas fa-plus mr-2"></i>
-                    Create new sale
+                    Create new capital
             </button>
         </a>
     </div>
@@ -31,44 +29,68 @@
     <!-- DataTable -->
     <div class="card shadow mb-12">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Customers</h6>
+            <h6 class="m-0 font-weight-bold text-primary">capitals</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th style="width:5%">#</th>
-                            <th style="width:15%">ID</th>
-                            <th style="width:25%">Date</th>
-                            <th style="width:20%">Customer</th>
-                            <th class="text-center" style="width:10%">Total</th>
-                            <th class="text-center" style="width:5%">Items</th>
-                            <th class="text-center" style="width:10%">Actions</th>
+                            <th>ID</th>
+                            <th style="width:7%">#</th>
+                            <th>Source</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th class="text-center" style="width:15%">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for s in sales %}
+                        {% for c in capitals %}
                         <tr>
+                            <td>{{c.id}}</td>
                             <td>{{forloop.counter}}</td>
-                            <td>{{s.id}}</td>
-                            <td>{{s.date_added}}</td>
-                            <td>{{s.customer.get_full_name}}</td>
-                            <td class="text-right" >{{s.grand_total}}</td>
-                            <td class="text-center" >{{s.sum_items}}</td>
+                            <td>{{c.source}}</td>
+                            <td>{{c.amount}}</td>
+                            <td>{{c.date_added}}</td>
+                            <td>{{c.description}}</td>
                             <td class="text-center">
-                                <!--View-->
-                                <a href="{% url 'sales:sales_details' s.id %}" class="text-decoration-none">
-                                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="tooltip" title="Update sale">
-                                        <i class="fas fa-eye"></i>
+                                <!--Update-->
+                                <a href="{% url 'expenses:capitals_update' c.id %}" class="text-decoration-none">
+                                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="tooltip" title="Update capital">
+                                        <i class="fas fa-pen"></i>
                                     </button>
                                 </a>
-                                <!--Print receipt-->
-                                <a href="{% url 'sales:sales_receipt_pdf' s.id %}" class="text-decoration-none">
-                                    <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="tooltip" title="View Receipt">
-                                        <i class="fas fa-receipt"></i>
+                                <!--Delete modal-->
+                                <!-- Button trigger modal -->
+                                <a class="text-decoration-none">
+                                    <button rel="delete" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </a>
+                                    
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Delete capital</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div id="updateThisText" class="modal-body">
+                                            Are you sure you want to delete the capital: {{c.name}}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            <a id="updateThisURL" href="{% url 'expenses:capitals_delete' c.id %}" class="text-decoration-none">
+                                                <button type="button"  class="btn btn-danger">Delete</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         {% endfor %}
@@ -82,9 +104,6 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 <!-- Datatables -->
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
-
-
 <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
 <!--Datatable buttons-->
@@ -101,10 +120,9 @@
 
 <!--Datatables-->
 <script>
-    
     // Call the dataTables jQuery plugin
     $(document).ready(function() {
-        tblCategories = $('#dataTable').DataTable({
+        tblcapitals = $('#dataTable').DataTable({
             dom: 'Bfrtip', // Buttons are draw at this element
             buttons: [
                 {
@@ -113,7 +131,7 @@
                 titleAttr: 'Print',
                 className: 'btn btn-info',
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3 ,4, 5]
+                    columns: [ 0, 1, 2, 3 ,4 ]
                 }            
                 },
                 {
@@ -122,7 +140,7 @@
                     titleAttr: 'Download Excel',
                     className: 'btn btn-success ml-2',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3 ,4, 5 ]
+                        columns: [ 0, 1, 2, 3 ,4 ]
                     } 
                 },
                 {
@@ -135,7 +153,7 @@
                     pageSize: 'A4',
                     title: '*',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3 ,4 ,5]
+                        columns: [ 0, 1, 2, 3 ,4 ]
                     },
                     customize: function (doc) {
                         doc.styles = {
@@ -162,7 +180,7 @@
                                 alignment: 'center'
                             }
                         };
-                        doc.content[1].table.widths = ['10%', '10%', '30%', '20%', '20%', '10%'];
+                        doc.content[1].table.widths = ['10%', '10%', '30%', '30%', '20%'];
                         doc.content[1].margin = [0, 35, 0, 0];
                         doc.content[1].layout = {};
                         doc['footer'] = (function (page, pages) {
@@ -187,12 +205,31 @@
             deferRender: true,
             columnDefs: [
                 {
+                    targets: [0],
+                    visible: false,
+                    searchable: false,
+                },
+                {
                     targets: [-1], // column index (start from 0)
                     orderable: false, // set orderable false for selected columns
                 }
             ],
         });
     });
-    
+
+    // Alert when trying to delete a capital
+    $('#dataTable tbody')
+    // Event when whe try to delete a capital
+    // We update the text, and href of the modal delete button
+    .on('click', 'button[rel="delete"]', function () {
+    // Row variable
+    var tr = tblcapitals.cell($(this).closest('td, li')).index();
+    row_data = ( tblcapitals.row(tr.row).data());
+    capital_id = row_data[0];
+    capital_name = row_data[2]
+    new_delete_url  = 'capitals/delete/' + capital_id;
+    document.getElementById("updateThisText").innerHTML = "Are you sure you want to delete the capital:  " + capital_name + "?";
+    document.getElementById("updateThisURL").href=new_delete_url;
+    });
 </script>
 {% endblock javascripts %}

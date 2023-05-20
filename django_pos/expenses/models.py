@@ -6,8 +6,9 @@ import django.utils.timezone
 class Expense(models.Model):
     name = models.CharField(max_length=100)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    category = models.ForeignKey('Xcategory', on_delete=models.CASCADE)
+    group = models.ForeignKey('Group', on_delete=models.CASCADE)
     date_added = models.DateTimeField(default=django.utils.timezone.now)
+    description = models.TextField(blank=True)
 
     class Meta:
         # Table's name
@@ -18,7 +19,7 @@ class Expense(models.Model):
         return self.name
     
 
-class Xcategory(models.Model):
+class Group(models.Model):
     STATUS_CHOICES = (  # new
         ("ACTIVE", "Active"),
         ("INACTIVE", "Inactive")
@@ -29,24 +30,22 @@ class Xcategory(models.Model):
     status = models.CharField(
         choices=STATUS_CHOICES,
         max_length=100,
-        verbose_name="Status of the xcategory",
+        verbose_name="Status of the group",
     )
 
     class Meta:
         # Table's name
-        db_table = "Xcategory"
-        verbose_name_plural = "xCategories"
+        db_table = "Group"
+        verbose_name_plural = "groups"
 
     def __str__(self) -> str:
         return self.name
-
-
 
 class Capital(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     source = models.CharField(max_length=50)
     date_added = models.DateTimeField(default=django.utils.timezone.now)
-    notes = models.TextField(blank=True)
+    description = models.TextField(blank=True)
 
     class Meta:
         # Table's name

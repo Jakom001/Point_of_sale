@@ -121,7 +121,7 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Products Collapse Menu -->
-    <li class="{% if "products" in active_icon %} nav-item active {% else %} nav-item {% endif %}">
+    <li class="{% if "expenses" in active_icon %} nav-item active {% else %} nav-item {% endif %}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSix"
             aria-expanded="true" aria-controls="collapseSix">
             <i class="fas fa-fw fa-tag"></i>
@@ -129,8 +129,9 @@
         </a>
         <div id="collapseSix" class="{% if "products" in active_icon %} collapse show {% else %} collapse {% endif %}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="{% if "categories" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="#">Category</a>
-                <a class="{% if "products_products" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="#">Expenses</a>
+                <a class="{% if "groups" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'expenses:groups_list' %}">Category</a>
+                <a class="{% if "capitals" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'expenses:capitals_list' %}">Capitals</a>
+                <a class="{% if "expenses_expenses" in active_icon %} collapse-item active {% else %} collapse-item {% endif %}" href="{% url 'expenses:expenses_list' %}">Expenses</a>
         </div>
     </li>
 

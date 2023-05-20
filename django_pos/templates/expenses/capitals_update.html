@@ -1,19 +1,19 @@
 {% extends "pos/base.html" %}
 
 <!-- Page title  -->
-{% block title %}Add sector{% endblock title %}
+{% block title %}Update capital{% endblock title %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
 
 <!-- Page Heading -->
-{% block heading %}Add sector{% endblock heading %}
+{% block heading %}Update capital{% endblock heading %}
 
 <!-- Page content  -->
 {% block content %}
 <!--Go back-->
 <div class="row ml-0 mb-3">
-    <a href="{% url 'productions:sectors_list' %}">
+    <a href="{% url 'expenses:capitals_list' %}">
         <button type="button" class="btn btn-info font-weight-bold">
             <i class="fas fa-long-arrow-alt-left mr-2"></i>
             Go back
@@ -21,35 +21,32 @@
     </a>
 </div>
 
-
 <div class="row">
     <div class="card col-md-8">
         <div class="card-body">
-            <form action="{% url 'productions:sectors_add' %}"  method="post">
+            <form action="{% url 'expenses:capitals_update' capital.id %}"  method="post">
                 {% csrf_token %}
                 <div class="form-row">
+                    
                     <div class="form-group col-md-8">
-                        <label for="inputDescription">Name</label>
-                        <input type="text" class="form-control" name="name" placeholder="Mutton..." required>
+                        <label for="inputDescription">Source</label>
+                        <input type="text" class="form-control" name="source" value="{{capital.source}}" required>
                     </div>
+                    
                     <div class="form-group col-md-4">
-                        <label for="state">State</label>
-                        <select name="state" class="form-control" required>
-                            {% for status in sector_status %}
-                            <option value="{{status.0}}">{{status.1}}</option>
-                            {% endfor %}
-                        </select>
+                        <label for="inputDescription">Source</label>
+                        <input type="number" class="form-control" name="amount" value="{{capital.amount}}" required>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label for="inputDescription">Description</label>
-                        <input type="text" name="description" class="form-control" placeholder="...." required>
+                        <input type="text" name="description" class="form-control" value="{{capital.description}}" required>
                     </div>
                 </div>
                
-                <button type="submit" class="btn btn-success font-weight-bold">Create sector</button>
+                <button type="submit" class="btn btn-success font-weight-bold">Update capital</button>
                
             </form>
         </div>

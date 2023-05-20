@@ -23,7 +23,9 @@ urlpatterns = [
     # Production
     path('productions/', include('productions.urls')),
     # Employees
-    path('Employees/', include('employees.urls')),
+    path('employees/', include('employees.urls')),
+    # Expenses
+    path('expenses/', include('expenses.urls')),
 
 ]
 #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
