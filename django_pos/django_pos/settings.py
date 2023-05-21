@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
+import environ
 import dj_database_url
 
 from pathlib import Path
@@ -32,17 +33,13 @@ ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
-DJANGO_APPS = [
+INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-]
-
-LOCAL_APPS = [
-    "customers",
     "pos",
     "products",
     "sales",
@@ -50,10 +47,9 @@ LOCAL_APPS = [
     "purchases",
     "productions",
     "employees",
-    "expenses"
+    "expenses",
+    "customers"
 ]
-
-INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -104,8 +100,12 @@ WSGI_APPLICATION = "django_pos.wsgi.application"
 #     }
 # }
 
+env = environ.Env()
+
+environ.Env.read_env()
+
 DATABASES = {
-    "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    "default": dj_database_url.parse(env("DATABASE_URL"))
 }
 
 
