@@ -20,4 +20,5 @@ tinycss2==1.2.1
 typing_extensions==4.5.0
 weasyprint==59.0
 webencodings==0.5.1
+whitenoise==6.4.0
 zopfli==0.2.2
