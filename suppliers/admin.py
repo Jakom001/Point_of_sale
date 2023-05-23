@@ -1,5 +1,8 @@
 from django.contrib import admin
-
 from .models import Supplier
 
-admin.site.register(Supplier)
+class SupplierAdmin(admin.ModelAdmin):
+    list_display = ('id', 'date_added', 'name', 'contact_person', 'address', 'email', 'phone')
+    ordering = ('-id',)
+
+admin.site.register(Supplier, SupplierAdmin)

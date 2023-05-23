@@ -142,13 +142,12 @@ def ProductsListView(request):
     }
     return render(request, "products/products.html", context=context)
 
-
 @login_required(login_url="/accounts/login/")
 def ProductsAddView(request):
     context = {
         "active_icon": "products_categories",
         "product_status": Product.status.field.choices,
-        "categories": Category.objects.all().filter(status="ACTIVE")
+        "categories": Category.objects.all()
     }
 
     if request.method == 'POST':
