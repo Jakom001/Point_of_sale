@@ -126,7 +126,7 @@ def SectorsDeleteView(request, sector_id):
         # Get the sector to delete
         sector = Sector.objects.get(id=sector_id)
         sector.delete()
-        messages.success(request, '¡Sector: ' + sector.name +
+        messages.success(request, 'Sector: ' + sector.name +
                          ' deleted!', extra_tags="success")
         return redirect('productions:sectors_list')
     except Exception as e:
@@ -180,7 +180,7 @@ def ProductionsAddView(request):
             new_production.save()
 
             messages.success(request, 'Production: ' +
-                             attributes["name"] + ' created succesfully!', extra_tags="success")
+                             attributes["product"] + ' created succesfully!', extra_tags="success")
             return redirect('productions:productions_list')
         except Exception as e:
             messages.success(
@@ -217,7 +217,7 @@ def ProductionsUpdateView(request, production_id):
 
     if request.method == 'POST':
         try:
-            # Save the POST arguements
+            # Save the POST arguments
             data = request.POST
 
             if 'product' in data:
@@ -226,29 +226,24 @@ def ProductionsUpdateView(request, production_id):
                 product = production.product
 
             attributes = {
-    
                 "product": product,
                 "description": data['description'],
                 "sector": Sector.objects.get(id=data['sector']),
                 "weight": data['weight'],
                 "quantity": data['quantity'],
                 "total_price": data['total_price'],
-                
             }
 
             # Check if a production with the same attributes exists
-            if production.objects.filter(**attributes).exists():
+            if Production.objects.filter(**attributes).exclude(id=production_id).exists():
                 messages.error(request, 'Production already exists!',
                                extra_tags="warning")
                 return redirect('productions:productions_add')
 
-            # Get the production to update
-            production = Production.objects.filter(
-                id=production_id).update(**attributes)
+            # Update the production
+            Production.objects.filter(id=production_id).update(**attributes)
 
-            production = Production.objects.get(id=production_id)
-
-            messages.success(request, '¡Production: ' + production.name +
+            messages.success(request, 'Production: ' + production.product +
                              ' updated successfully!', extra_tags="success")
             return redirect('productions:productions_list')
         except Exception as e:
@@ -270,7 +265,7 @@ def ProductionsDeleteView(request, production_id):
         # Get the production to delete
         production = Production.objects.get(id=production_id)
         production.delete()
-        messages.success(request, '¡Production: ' + production.name +
+        messages.success(request, '¡Production: ' + production.product +
                          ' deleted!', extra_tags="success")
         return redirect('productions:productions_list')
     except Exception as e:
@@ -291,7 +286,7 @@ def GetProductionsAJAXView(request):
             data = []
 
             productions = Production.objects.filter(
-                name__icontains=request.POST['term'])
+                product__icontains=request.POST['term'])
             for production in productions[0:10]:
                 item = production.to_json()
                 data.append(item)

@@ -208,6 +208,7 @@
             this.items.products.push(item);
             this.list_product();
         },
+
         // Shows the selected product in the table
         list_product: function () {
             // Calculate the purchase 
@@ -219,30 +220,35 @@
                 columns: [
                     {"data": "number"}, 
                     {"data": "name"},
-                    {"data": "price"},
+                    {
+                        "data": "price",
+                        render: function(data, type, row) {
+                            return '<input name="price" type="text" class="form-control form-control-xs text-center input-sm" autocomplete="off" value="' + data + '">';
+                        }
+                    },
                     {"data": "quantity"},
                     {"data": "total_product"},
                     {"data": "id"},
                 ],
                 columnDefs: [
+                    // Quantity
                     {
-                        // Quantity
                         class: 'text-center',
                         targets: [3], 
                         render: function (data, type, row){
-                            return '<input name="quantity" type="text" class="form-control form-control-xs text-center input-sm" autocomplete="off" value="'+row.quantity+'">';
+                            return '<input name="quantity" type="text" class="form-control form-control-xs text-center input-sm" autocomplete="off" value="' + row.quantity + '">';
                         },                      
                     },
+                    // Product price and total
                     {
-                        //Product price an total
                         class: 'text-right',
-                        targets: [2,4],
+                        targets: [4],
                         render: function (data, type, row){
                             return parseFloat(data).toFixed(2) + ' $';
                         },
                     },
+                    // Delete button
                     {
-                        //Delete button
                         class: 'text-center',
                         targets: [-1],
                         orderable: false,
@@ -250,21 +256,29 @@
                             return '<a rel="delete" type="button" class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Delete product"> <i class="fas fa-trash-alt fa-xs"></i> </a>';
                         },
                     },
-
                 ],
                 rowCallback(row, data, displayNun, displayIndex, dataIndex){
                     $(row).find(("input[name='quantity']")).TouchSpin({
                         min: 1,
-                        max: 100, //Máximo de acuerdo al stock de cada producto
+                        max: 100, // Maximum according to each product's stock
                         step: 1,
                         decimals: 0,
                         boostat: 1,
                         maxboostedstep: 3,
                         postfix: ''
                     });
+
+                    $(row).find(("input[name='price']")).on('keyup change', function() {
+                        var price = parseFloat($(this).val());
+                        if (!isNaN(price)) {
+                            var tr = tblProducts.cell($(this).closest('td, li')).index();
+                            purchase.items.products[tr.row].price = price;
+                            purchase.calculate_purchase();
+                            $('td:eq(4)', tblProducts.row(tr.row).node()).html(purchase.items.products[tr.row].total_product + ' $');
+                        }
+                    });
                 },
-            })
-            
+            });
             // IDs de productos ya seleccionados para exlcuir en la busqueda
             //console.log("this.traer_ids()");
             //console.log(this.traer_ids());
@@ -484,9 +498,9 @@
             };
             
             // Only allow to send if the payed amount is equal or greater than the total
-            if ($('[name="amount_payed"]').val() <= $('[name="grand_total"]').val()) {
+            if (parseFloat($('[name="amount_payed"]').val()).toFixed(2) < parseFloat($('[name="grand_total"]').val()).toFixed(2)) {
                 Swal.fire({
-                    title: 'Payable Amount is lower that the Grand Total',
+                    title: 'Payable Amount is lower than the Grand Total',
                     icon: 'warning',
                 });
                 return false;

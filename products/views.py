@@ -102,7 +102,7 @@ def CategoriesUpdateView(request, category_id):
 
             category = Category.objects.get(id=category_id)
 
-            messages.success(request, '¡Category: ' + category.name +
+            messages.success(request, 'Category: ' + category.name +
                              ' updated successfully!', extra_tags="success")
             return redirect('products:categories_list')
         except Exception as e:
@@ -124,7 +124,7 @@ def CategoriesDeleteView(request, category_id):
         # Get the category to delete
         category = Category.objects.get(id=category_id)
         category.delete()
-        messages.success(request, '¡Category: ' + category.name +
+        messages.success(request, 'Category: ' + category.name +
                          ' deleted!', extra_tags="success")
         return redirect('products:categories_list')
     except Exception as e:
@@ -213,7 +213,7 @@ def ProductsUpdateView(request, product_id):
 
     if request.method == 'POST':
         try:
-            # Save the POST arguements
+            # Save the POST arguments
             data = request.POST
 
             attributes = {
@@ -225,18 +225,17 @@ def ProductsUpdateView(request, product_id):
             }
 
             # Check if a product with the same attributes exists
-            if product.objects.filter(**attributes).exists():
+            if Product.objects.filter(**attributes).exclude(id=product_id).exists():
                 messages.error(request, 'Product already exists!',
                                extra_tags="warning")
                 return redirect('products:products_add')
 
-            # Get the product to update
-            product = Product.objects.filter(
-                id=product_id).update(**attributes)
+            # Update the product attributes
+            for key, value in attributes.items():
+                setattr(product, key, value)
+            product.save()
 
-            product = Product.objects.get(id=product_id)
-
-            messages.success(request, '¡Product: ' + product.name +
+            messages.success(request, 'Product: ' + product.name +
                              ' updated successfully!', extra_tags="success")
             return redirect('products:products_list')
         except Exception as e:
@@ -246,6 +245,7 @@ def ProductsUpdateView(request, product_id):
             return redirect('products:products_list')
 
     return render(request, "products/products_update.html", context=context)
+
 
 
 @login_required(login_url="/accounts/login/")
@@ -258,7 +258,7 @@ def ProductsDeleteView(request, product_id):
         # Get the product to delete
         product = Product.objects.get(id=product_id)
         product.delete()
-        messages.success(request, '¡Product: ' + product.name +
+        messages.success(request, 'Product: ' + product.name +
                          ' deleted!', extra_tags="success")
         return redirect('products:products_list')
     except Exception as e:
