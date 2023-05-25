@@ -7,6 +7,7 @@ from .models import Category, Product
 
 @login_required(login_url="/accounts/login/")
 def CategoriesListView(request):
+    
     context = {
         "active_icon": "products_categories",
         "categories": Category.objects.all()

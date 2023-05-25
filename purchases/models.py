@@ -35,12 +35,12 @@ class PurchaseDetail(models.Model):
     product = models.ForeignKey(
         Product, models.DO_NOTHING, db_column='product')
     price = models.FloatField()
+    weight = models.IntegerField(default=0)
     quantity = models.IntegerField()
     total_detail = models.FloatField()
     
-
     class Meta:
         db_table = 'PurchaseDetails'
 
     def __str__(self) -> str:
-        return "Detail ID: " + str(self.id) + " Purchase ID: " + str(self.purchase.id) + " Quantity: " + str(self.quantity)   
+        return "Detail ID: " + str(self.id) + " Purchase ID: " + str(self.purchase.id) + " Quantity: " + str(self.quantity) + " Weight: " + str(self.weight)

@@ -65,6 +65,7 @@
                                                 <th>Name</th>
                                                 <th>Price</th>
                                                 <th>Quantity</th>
+                                                <th>Weight</th>
                                                 <th>Total</th>
                                                 <th class="text-center">Delete</th>
                                                 </tr>
@@ -227,6 +228,12 @@
                         }
                     },
                     {"data": "quantity"},
+                    {
+                        "data": "weight",
+                        render: function (data, type, row) {
+                            return '<input name="weight" type="text" class="form-control form-control-xs text-center input-sm" autocomplete="off" value="' + data + '">';
+                        }
+                    },
                     {"data": "total_product"},
                     {"data": "id"},
                 ],
@@ -242,7 +249,7 @@
                     // Product price and total
                     {
                         class: 'text-right',
-                        targets: [4],
+                        targets: [5],
                         render: function (data, type, row){
                             return parseFloat(data).toFixed(2) + ' $';
                         },
@@ -274,7 +281,7 @@
                             var tr = tblProducts.cell($(this).closest('td, li')).index();
                             purchase.items.products[tr.row].price = price;
                             purchase.calculate_purchase();
-                            $('td:eq(4)', tblProducts.row(tr.row).node()).html(purchase.items.products[tr.row].total_product + ' $');
+                            $('td:eq(5)', tblProducts.row(tr.row).node()).html(purchase.items.products[tr.row].total_product + ' $');
                         }
                     });
                 },
@@ -359,7 +366,7 @@
                 // Calculate the purchase with the new quantity
                 purchase.calculate_purchase();
                 // Find the row to update the product total
-                $('td:eq(4)', tblProducts.row(tr.row).node()).html(purchase.items.products[tr.row].total_product + ' $');
+                $('td:eq(5)', tblProducts.row(tr.row).node()).html(purchase.items.products[tr.row].total_product + ' $');
         });
 
         // Delete all products

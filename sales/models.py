@@ -33,10 +33,11 @@ class SaleDetail(models.Model):
         Product, models.DO_NOTHING, db_column='product')
     price = models.FloatField()
     quantity = models.IntegerField()
+    weight = models.IntegerField(default=0)
     total_detail = models.FloatField()
 
     class Meta:
         db_table = 'SaleDetails'
 
     def __str__(self) -> str:
-        return "Detail ID: " + str(self.id) + " Sale ID: " + str(self.sale.id) + " Quantity: " + str(self.quantity)
+        return "Detail ID: " + str(self.id) + " Sale ID: " + str(self.sale.id) + " Quantity: " + str(self.quantity ) + " Weight: " + str(self.weight )

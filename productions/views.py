@@ -150,7 +150,7 @@ def ProductionsAddView(request):
     context = {
         "active_icon": "productions_sectors",
         "sectors": Sector.objects.all().filter(status="ACTIVE"),
-        "products": Product.objects.all().filter(status="ACTIVE"),
+        "products": Product.objects.all()
     }
 
     if request.method == 'POST':
@@ -176,20 +176,17 @@ def ProductionsAddView(request):
             # Create the production
             new_production = Production.objects.create(**attributes)
 
-            # If it doesn't exists save it
+             # If it doesn't exists save it
             new_production.save()
 
             messages.success(request, 'Production: ' +
-                             attributes["product"] + ' created succesfully!', extra_tags="success")
+                            attributes["product"].name + ' created successfully!', extra_tags="success")
             return redirect('productions:productions_list')
         except Exception as e:
-            messages.success(
-                request, 'There was an error during the creation!', extra_tags="danger")
+            messages.error(request, 'There was an error during the creation: ' + str(e), extra_tags="danger")
             print(e)
             return redirect('productions:productions_add')
-
     return render(request, "productions/productions_add.html", context=context)
-
 
 @login_required(login_url="/accounts/login/")
 def ProductionsUpdateView(request, production_id):
@@ -243,12 +240,13 @@ def ProductionsUpdateView(request, production_id):
             # Update the production
             Production.objects.filter(id=production_id).update(**attributes)
 
-            messages.success(request, 'Production: ' + production.product +
-                             ' updated successfully!', extra_tags="success")
+            messages.success(request, 'Production: ' + str(production.product) + ' updated successfully!', extra_tags="success")
+
             return redirect('productions:productions_list')
         except Exception as e:
-            messages.success(
-                request, 'There was an error during the update!', extra_tags="danger")
+            messages.error(request, f'There was an error during the update: {str(e)}', extra_tags="danger")
+            return redirect('productions:productions_list')
+
             print(e)
             return redirect('productions:productions_list')
 
@@ -265,8 +263,8 @@ def ProductionsDeleteView(request, production_id):
         # Get the production to delete
         production = Production.objects.get(id=production_id)
         production.delete()
-        messages.success(request, '¡Production: ' + production.product +
-                         ' deleted!', extra_tags="success")
+        messages.success(request, 'Production: ' + str(production.product) + ' deleted!', extra_tags="success")
+
         return redirect('productions:productions_list')
     except Exception as e:
         messages.success(

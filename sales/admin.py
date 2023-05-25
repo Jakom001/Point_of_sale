@@ -6,7 +6,7 @@ class SaleAdmin(admin.ModelAdmin):
     ordering = ('-id',)
 
 class SaleDetailAdmin(admin.ModelAdmin):
-    list_display = ('id', 'sale', 'product', 'price', 'quantity', 'total_detail')
+    list_display = ('id', 'sale', 'product', 'price', 'weight', 'quantity', 'total_detail')
     ordering = ('-id',)  
 
 admin.site.register(Sale, SaleAdmin)

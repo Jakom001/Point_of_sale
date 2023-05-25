@@ -10,6 +10,11 @@ from products.models import Product
 from weasyprint import HTML, CSS
 from .models import Purchase, PurchaseDetail
 import json
+from django.shortcuts import render
+import base64
+import os
+from django.contrib.staticfiles import finders
+from django.template.loader import get_template
 
 
 def is_ajax(request):
@@ -58,6 +63,7 @@ def PurchasesAddView(request):
                         "purchase": Purchase.objects.get(id=new_purchase.id),
                         "product": Product.objects.get(id=int(product["id"])),
                         "price": product["price"],
+                        "weight":product['weight'],
                         "quantity": product["quantity"],
                         "total_detail": product["total_product"],
                     }
@@ -111,24 +117,31 @@ def ReceiptPDFView(request, purchase_id):
     Args:
         purchase_id: ID of the purchase to view the receipt
     """
-    # Get tthe purchase
+    # Get the purchase
     purchase = Purchase.objects.get(id=purchase_id)
 
     # Get the purchase details
     details = PurchaseDetail.objects.filter(purchase=purchase)
 
+    # Get the path to the image file
+    image_path = finders.find('img/logo.png')
+
+    # Read the image file and encode it as base64
+    with open(image_path, 'rb') as image_file:
+        encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
+
     template = get_template("purchases/purchases_receipt_pdf.html")
     context = {
         "purchase": purchase,
-        "details": details
+        "details": details,
+        "company_logo": encoded_image,  # Pass the encoded image to the context
     }
     html_template = template.render(context)
 
-    # CSS Boostrap
-    css_url = os.path.join(
-        settings.BASE_DIR, 'static/css/receipt_pdf/bootstrap.min.css')
+    # CSS Bootstrap
+    css_url = os.path.join(settings.BASE_DIR, 'static/css/receipt_pdf/bootstrap.min.css')
 
-    # Create the pdf
+    # Create the PDF
     pdf = HTML(string=html_template).write_pdf(stylesheets=[CSS(css_url)])
 
     return HttpResponse(pdf, content_type="application/pdf")
