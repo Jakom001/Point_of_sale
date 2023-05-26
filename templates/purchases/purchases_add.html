@@ -228,11 +228,13 @@
                         }
                     },
                     {"data": "quantity"},
+                    // Weight
                     {
-                        "data": "weight",
-                        render: function (data, type, row) {
-                            return '<input name="weight" type="text" class="form-control form-control-xs text-center input-sm" autocomplete="off" value="' + data + '">';
-                        }
+                        class: 'text-center',
+                        targets: [4], 
+                        render: function (data, type, row){
+                            return '<input name="weight" type="text" class="form-control form-control-xs text-center input-sm" autocomplete="off" value="' + row.weight + '">';
+                        },                      
                     },
                     {"data": "total_product"},
                     {"data": "id"},
@@ -367,6 +369,13 @@
                 purchase.calculate_purchase();
                 // Find the row to update the product total
                 $('td:eq(5)', tblProducts.row(tr.row).node()).html(purchase.items.products[tr.row].total_product + ' $');
+        }).on('change keyup', 'input[name="weight"]', function(){
+            // When a product changes its weight
+            var weight = parseFloat($(this).val());
+            var tr = tblProducts.cell($(this).closest('td, li')).index();
+            purchase.items.products[tr.row].weight = weight;
+            purchase.calculate_purchase();
+            $('td:eq(5)', tblProducts.row(tr.row).node()).html(purchase.items.products[tr.row].total_product + ' $');
         });
 
         // Delete all products

@@ -35,7 +35,7 @@ class PurchaseDetail(models.Model):
     product = models.ForeignKey(
         Product, models.DO_NOTHING, db_column='product')
     price = models.FloatField()
-    weight = models.IntegerField(default=0)
+    weight = models.FloatField(default=0)
     quantity = models.IntegerField()
     total_detail = models.FloatField()
     

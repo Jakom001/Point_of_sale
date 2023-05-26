@@ -33,7 +33,7 @@ class SaleDetail(models.Model):
         Product, models.DO_NOTHING, db_column='product')
     price = models.FloatField()
     quantity = models.IntegerField()
-    weight = models.IntegerField(default=0)
+    weight = models.FloatField(default=0)
     total_detail = models.FloatField()
 
     class Meta:
