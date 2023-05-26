@@ -12102,9 +12102,11 @@ a:focus {
 }
 
 .bg-login-image {
-    background: url(https://img.freepik.com/premium-vector/isometric-style-illustration-website-registration-rule-checklist-other_529804-615.jpg?w=740);
+    background: url('../img/logo.png');
     background-position: center;
-    background-size: cover
+    background-size: cover;
+    background-repeat: no-repeat;
+  
 }
 
 .bg-register-image {
