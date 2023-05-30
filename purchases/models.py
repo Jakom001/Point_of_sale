@@ -31,7 +31,7 @@ class Purchase(models.Model):
 class PurchaseDetail(models.Model):
 
     purchase = models.ForeignKey(
-        Purchase, models.DO_NOTHING, db_column='purchase')
+        Purchase, models.CASCADE, db_column='purchase')
     product = models.ForeignKey(
         Product, models.DO_NOTHING, db_column='product')
     price = models.FloatField()
