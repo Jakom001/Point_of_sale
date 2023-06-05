@@ -145,3 +145,38 @@ def ReceiptPDFView(request, sale_id):
     pdf = HTML(string=html_template).write_pdf(stylesheets=[CSS(css_url)])
 
     return HttpResponse(pdf, content_type="application/pdf")
+
+
+def InvoicePDFView(request, sale_id):
+    """
+    Args:
+        sale_id: ID of the sale to view the invoice
+    """
+    # Get the sale
+    sale = Sale.objects.get(id=sale_id)
+
+    # Get the sale details
+    details = SaleDetail.objects.filter(sale=sale)
+
+    # Get the path to the image file
+    image_path = finders.find('img/logo.png')
+
+    # Read the image file and encode it as base64
+    with open(image_path, 'rb') as image_file:
+        encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
+
+    template = get_template("sales/sales_invoice_pdf.html")
+    context = {
+        "sale": sale,
+        "details": details,
+        "company_logo": encoded_image,  # Pass the encoded image to the context
+    }
+    html_template = template.render(context)
+
+    # CSS Bootstrap
+    css_url = os.path.join(settings.BASE_DIR, 'static/css/receipt_pdf/bootstrap.min.css')
+
+    # Create the PDF
+    pdf = HTML(string=html_template).write_pdf(stylesheets=[CSS(css_url)])
+
+    return HttpResponse(pdf, content_type="application/pdf")
