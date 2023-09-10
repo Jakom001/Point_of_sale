@@ -47,7 +47,13 @@ def index(request):
     total_revenue = Sale.objects.aggregate(total_revenue=Sum('grand_total'))['total_revenue']
     
     total_sales_count = Sale.objects.count()
-    average_revenue_per_sale = round(total_revenue / total_sales_count, 2)
+    # average_revenue_per_sale = round(total_revenue / total_sales_count, 2)
+    if total_sales_count is not None and total_sales_count != 0:
+        average_revenue_per_sale = round(total_revenue / total_sales_count, 2)
+    else:
+        average_revenue_per_sale = 0.0  # Handle the case when there are no sales or count is zero
+
+
     total_quantity_sold = SaleDetail.objects.aggregate(total_quantity_sold=Sum('quantity'))['total_quantity_sold']
     
     top_selling_products = SaleDetail.objects.values('product__name').annotate(quantity_sold=Sum('quantity')).order_by('-quantity_sold')[:5]
@@ -62,7 +68,14 @@ def index(request):
     total_purchase_amount = Purchase.objects.aggregate(total_amount=Sum('grand_total'))['total_amount']
 
     # Average purchase amount
-    avg_purchase_amount = round(Purchase.objects.aggregate(avg_amount=Avg('grand_total'))['avg_amount'], 2)
+    #avg_purchase_amount = round(Purchase.objects.aggregate(avg_amount=Avg('grand_total'))['avg_amount'], 2)
+
+    avg_purchase_amount = Purchase.objects.aggregate(avg_amount=Avg('grand_total'))['avg_amount']
+
+    if avg_purchase_amount is not None:
+        avg_purchase_amount = round(avg_purchase_amount, 2)
+    else:
+        avg_purchase_amount = 0.0  # or any other default value you prefer
 
     # Total quantity of items purchased
     total_quantity_purchased = PurchaseDetail.objects.aggregate(total_quantity=Sum('quantity'))['total_quantity']
